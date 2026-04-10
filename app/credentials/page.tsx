@@ -10,10 +10,8 @@ type Credential = {
   id: string;
   serviceName: string;
   loginId: string;
-  url: string;
   purpose: string;
-  isFavorite: boolean;
-  updatedAt: string;
+  category: string | null;
 };
 
 export default function CredentialsListPage() {
@@ -26,8 +24,8 @@ export default function CredentialsListPage() {
       try {
         const res = await fetch("/api/credentials", { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to load credentials");
-        const json = (await res.json()) as { data: Credential[] };
-        setData(json.data);
+        const json = (await res.json()) as { success?: boolean; data?: Credential[] };
+        setData(Array.isArray(json.data) ? json.data : []);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load credentials");
       } finally {
@@ -46,9 +44,12 @@ export default function CredentialsListPage() {
         </Button>
       </div>
 
-      {loading ? <p className="text-sm text-muted-foreground">Loading credentials...</p> : null}
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
-      {!loading && !error ? <CredentialTable credentials={data} /> : null}
+      <section className="space-y-3">
+        <h2 className="text-lg font-medium">Saved Credentials</h2>
+        {loading ? <p className="text-sm text-muted-foreground">Loading credentials...</p> : null}
+        {error ? <p className="text-sm text-destructive">{error}</p> : null}
+        {!loading && !error ? <CredentialTable credentials={data} /> : null}
+      </section>
     </main>
   );
 }

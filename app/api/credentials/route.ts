@@ -7,7 +7,7 @@ import { credentialService } from "@/services/credential.service";
 export async function GET() {
   try {
     const credentials = await credentialService.listCredentials();
-    return NextResponse.json({ data: credentials }, { status: 200 });
+    return NextResponse.json({ success: true, data: credentials }, { status: 200 });
   } catch {
     return NextResponse.json(
       { error: "Failed to list credentials" },
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     const payload = createCredentialSchema.parse(body);
     const created = await credentialService.createCredential(payload);
 
-    return NextResponse.json({ data: created }, { status: 201 });
+    return NextResponse.json({ success: true, data: created }, { status: 201 });
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
