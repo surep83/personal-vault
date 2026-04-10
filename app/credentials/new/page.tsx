@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { CredentialForm, type CredentialFormValues } from "@/components/credentials/credential-form";
 import { Button } from "@/components/ui/button";
@@ -10,16 +11,24 @@ export default function AddCredentialPage() {
   const router = useRouter();
 
   async function handleCreate(values: CredentialFormValues) {
-    const res = await fetch("/api/credentials", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    if (!res.ok) {
+    try {
+      const res = await fetch("/api/credentials", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create credential");
+      }
+
+      toast.success("Credential created successfully");
+      router.push("/credentials");
+      router.refresh();
+    } catch {
+      toast.error("Failed to create credential");
       throw new Error("Failed to create credential");
     }
-    router.push("/credentials");
-    router.refresh();
   }
 
   return (

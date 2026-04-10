@@ -65,6 +65,8 @@ export function CredentialForm({
 
   return (
     <form
+      method="post"
+      noValidate
       className="space-y-5 rounded-xl border bg-card p-4 shadow-sm sm:p-6"
       onSubmit={handleSubmit(async (values) => {
         try {
