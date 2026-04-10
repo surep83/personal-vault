@@ -1,0 +1,20 @@
+# Personal Vault Cursor Rules
+
+You are building a production-ready app called Personal Vault.
+
+Current module: Credential Vault.
+
+Rules:
+- Use TypeScript everywhere
+- Keep code modular and clean
+- Use Next.js App Router
+- Use Prisma ORM
+- Use Zod validation
+- Use React Hook Form for forms
+- Use shadcn/ui components
+- Never store passwords in plain text
+- Passwords must be encrypted before saving
+- Keep route handlers thin
+- Use service layer and repository layer
+- Prefer reusable components
+- Generate complete runnable code, not pseudo-code
